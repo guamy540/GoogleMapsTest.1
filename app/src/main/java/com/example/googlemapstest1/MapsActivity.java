@@ -2,6 +2,7 @@ package com.example.googlemapstest1;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -41,13 +42,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         LatLng bellingham2 = new LatLng(48.740768, -122.488380);
         LatLng issaquah2 = new LatLng(47.563251, -122.021851);
+        LatLng guam = new LatLng(13.4708, 144.8181);
 
         //button pressed to go to premade location
         btn = findViewById(R.id.gotoGuam);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LatLng guam = new LatLng(13.4708, 144.8181);
                 mMap.addMarker(new MarkerOptions().position(guam).title("Marker on Barrigada,Guam"));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(guam, 15));
             }
@@ -62,10 +63,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 PolylineOptions rectOption = new PolylineOptions()
                         .add(bellingham2)
-                        .add(issaquah2);
+                        .add(issaquah2)
+                        .add(guam);
 
                 Polyline polyline = mMap.addPolyline(rectOption);
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(bellingham2, 10));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(bellingham2, 5));
+
 
 
             }
