@@ -12,22 +12,35 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.googlemapstest1.databinding.ActivityMapsBinding;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
     Button btn;
+    Button btnDirections;
+    MarkerOptions bellingham, issaquah;
+
+    Polyline currentPolyline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
+        bellingham = new MarkerOptions().position(new LatLng(48.740768, -122.488380)).title("Bellingham");
+        issaquah = new MarkerOptions().position(new LatLng(47.563251, -122.021851)).title("Issaquah");
+
+        LatLng bellingham2 = new LatLng(48.740768, -122.488380);
+        LatLng issaquah2 = new LatLng(47.563251, -122.021851);
 
         //button pressed to go to premade location
         btn = findViewById(R.id.gotoGuam);
@@ -39,6 +52,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(guam, 15));
             }
         });
+
+        //button pressed to test polyline
+        btnDirections = findViewById(R.id.directions);
+        btnDirections.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                PolylineOptions rectOption = new PolylineOptions()
+                        .add(bellingham2)
+                        .add(issaquah2);
+
+                Polyline polyline = mMap.addPolyline(rectOption);
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(bellingham2, 10));
+
+
+            }
+        });
+
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
